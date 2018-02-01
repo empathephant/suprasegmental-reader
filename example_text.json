@@ -1,5 +1,5 @@
 {
-    "id": 001,
+    "id": 1,
     "title": "A Very Bad Day",
     "syllables": [
         {
@@ -147,7 +147,7 @@
             "stressed": false,
             "followed_by_pause": true,
             "intonation": "falling",
-            "connector": "! "
-        },
+            "connector": "!"
+        }
     ]
 }
