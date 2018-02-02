@@ -57,6 +57,32 @@ header {
     font-size: 1.5em;
 }
 
+.stretch {
+    width: 100vw;
+    height: 90vh;
+}
+
+.picture {
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.pic-with-cap {
+    text-align: center;
+}
+
+.pic-with-cap .picture {
+    width: 100%;
+    max-height: 90vh;
+    min-height: 22vh;
+}
+
+.caption {
+    font-size: 0.8em;
+    font-style: italic;
+}
+
 #title {
     text-align: center;
     font-size: 1.5em;
@@ -74,14 +100,30 @@ h2 {
     font-weight: 100;
 }
 
-a:visited { 
-    color: #22CC99;
+a:hover {
+    color: rgb(21, 184, 135);
 }
 
-.picture {
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
+a { 
+    color: #22CC99;
+    text-decoration: none;
+}
+
+#about-pics {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+}
+
+#about-pics .pic-with-cap {
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 100%;
+    max-width: 40%;
 }
 
 #contact, #add {
