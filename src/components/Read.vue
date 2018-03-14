@@ -5,7 +5,26 @@
         </div>
 
         <div id="container">
-            <p>This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here. This is an example passage. Text for a passage will appear here.</p>
+            <h2 class="passage_head">Current Passages</h2>
+            <div v-for="passage in passages">
+                <hr>
+                <h4>{{passage.title}}</h4>
+                <p>{{passage.display_text}}</p>
+	        </div>
+
+            <h2 class="passage_head">Up-Next Passages</h2>
+            <div v-for="passage in passages">
+                <hr>
+                <h4>{{passage.title}}</h4>
+                <p>{{passage.display_text}}</p>
+	        </div>            
+            
+            <h2 class="passage_head">Completed Passages</h2>
+            <div v-for="passage in passages">
+                <hr>
+                <h4>{{passage.title}}</h4>
+                <p>{{passage.display_text}}</p>
+	        </div>        
         </div>
     </div>
 </template>
@@ -14,6 +33,23 @@
 import axios from 'axios';
  export default {
      name: 'Read',
+     data () {
+        return {
+            passages: [],
+        }
+     },
+     created: function() {
+        this.getPassages();
+     },
+     methods: {
+        getPassages: function() {
+            axios.get("/api/passages").then(response => {
+	            this.passages = response.data;
+	            return true;
+            }).catch(err => {
+            });
+        },
+     },
  }
 </script>
 
@@ -37,6 +73,9 @@ import axios from 'axios';
     max-width: 800px;
     margin: auto;
     padding: 1em;
+}
+.passage_head {
+    text-align: center;
 }
  a:hover {
     color: rgb(21, 184, 135);

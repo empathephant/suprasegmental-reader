@@ -19,10 +19,14 @@ app.put('/api/passages/:id', (req, res) => {
     let passagesMap = passages.map(passage => { return passage.id; });
     let index = passagesMap.indexOf(id);
     let passage = passages[index];
+
+    passage.date_created = req.body.date_created;
+    passage.title = req.body.title;
+    passage.display_text = req.body.display_text;
     passage.completed = req.body.completed;
-    passage.text = req.body.text;
-    if (passage.completed) {
-        passage.completedDate = Date.now();
+
+    if (passage.completed === "true") {
+        passage.date_completed = Date.now();
     }
     // handle drag and drop re-ordering
     if (req.body.orderChange) {
@@ -35,9 +39,16 @@ app.put('/api/passages/:id', (req, res) => {
 
 app.post('/api/passages', (req, res) => {
     id = id + 1;
-    let passage = { id: id, text: req.body.text, completed: req.body.completed };
-    if (passage.completed) {
-        passage.completedDate = Date.now();
+    let passage = { 
+        id: id, 
+        dateCreated: Date.now(),
+        title: req.body.title, 
+        display_text: req.body.display_text, 
+        syllables: [],
+        completed: req.body.completed 
+    };
+    if (passage.completed === "true") {
+        passage.date_completed = Date.now();
     }
     passages.push(passage);
     res.send(passage);

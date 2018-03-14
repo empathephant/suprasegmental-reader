@@ -1,5 +1,6 @@
 {
     "id": 1,
+    "date_created": "Date.now()",
     "title": "A Very Bad Day",
     "display_text": "Have you ever had a bad day? Well, yesterday was the most terrible day ever!",
     "syllables": [
@@ -150,5 +151,7 @@
             "intonation": "falling",
             "connector": "!"
         }
-    ]
+    ],
+    "completed": "partially",
+    "date_completed": "Date.now()"
 }
