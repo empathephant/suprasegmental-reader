@@ -8,13 +8,27 @@
 	    <li class="nav-item"><router-link to="/read">Read a Passage</router-link></li>
 	    <li class="nav-item"><router-link to="/about">About</router-link></li>
 	    <li class="nav-item"><router-link to="/contact">Contact</router-link></li>
+	    <li class="nav-item" id="user_type">{{ user }}</li>
 	</ul>	
     </nav>
 </template>
 
 <script>
  export default {
-     name: 'AppHeader'
+     name: 'AppHeader',
+     data () {
+         return {
+            user_type: "",
+        }
+     },
+     created: function() {
+        this.getUser();
+     },
+     methods: {
+         getUser: function() {
+             
+         },
+     }
  }
 </script>
 
@@ -64,6 +78,18 @@
     color: rgb(40, 40, 40);
     text-decoration: none;
 }
+
+#user_type {
+     display:block;
+     font-weight: bold;
+     padding: 14px 16px;
+     height: 50px;
+     text-align: center;
+     line-height: 50px;
+     background-color: #22CC99;
+     text-decoration: none;
+     border-bottom: 2px solid lightgrey;
+ }
  /*Active color*/
  .nav-item a.active {
  }

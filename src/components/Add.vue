@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import axios from 'axios';
  export default {
      name: 'Add',
      data () {
@@ -26,17 +25,12 @@ import axios from 'axios';
      methods: {
         addPassage: function() {
             console.log(`New Passage "${this.addedTitle}" added.`)
-            axios.post("/api/passages", {
+            this.$store.dispatch('addPassage',{
                 date_created: Date.now(),
                 title: this.addedTitle,
                 display_text: this.addedText, 
                 syllables: [],
                 completed: "false",
-            }).then(response => {
-                this.addedTitle = "";
-                this.addedText = "";
-                return true;
-            }).catch(err => {
             });
         },
      }

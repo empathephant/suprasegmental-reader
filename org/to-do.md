@@ -1,5 +1,15 @@
 - [] Separate about page into "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
+- [] create drop down menu with "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
 - [] Make a grid based layout full of sample passages on the read a passage page
 - [] make the form give feedback
 - [] api/assignment 2 stuff
 - [] make the parser actually work :)
+- [] add favicon back, in green
+- [] fix about pics
+- [] make passages use grid layout
+- [] make contact us form work
+- [] ability to delete passages
+- [] ability to edit passages
+- [] switchable modes
+- [] implement store
+- [] add passage author = current user

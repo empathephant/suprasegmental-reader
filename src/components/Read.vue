@@ -30,24 +30,24 @@
 </template>
 
 <script>
-import axios from 'axios';
  export default {
      name: 'Read',
      data () {
         return {
-            passages: [],
+          
         }
      },
      created: function() {
         this.getPassages();
      },
+    computed: {
+        passages: function() {
+            return this.$store.getters.passages;
+        },
+    },
      methods: {
         getPassages: function() {
-            axios.get("/api/passages").then(response => {
-	            this.passages = response.data;
-	            return true;
-            }).catch(err => {
-            });
+            this.$store.dispatch('getPassages');
         },
      },
  }

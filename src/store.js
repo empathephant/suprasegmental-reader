@@ -7,6 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        current_user: {},
+        users: [],
         passages: [],
     },
     getters: {
@@ -15,6 +17,9 @@ export default new Vuex.Store({
     mutations: {
         setPassages(state, passages) {
             state.passages = passages;
+        },
+        setUser(state, user) {
+            state.user = user;
         },
     },
     actions: {
@@ -43,6 +48,13 @@ export default new Vuex.Store({
                 return context.dispatch('getPassages');
             }).catch(err => {
             });
-        }
+        },
+
+        getUser(context, user) {
+            axios.get("/api/users/" + user.id, user).then(response => {
+                return true;
+            }).catch(err => {
+            });
+        },
     }
 });

@@ -7,6 +7,10 @@
         </div>
         <div id="container">
             <p>This application allows TESOL (Teaching English to Speakers of Other Languages) teachers to upload reading passages and allows students to view, listen to, mark-up, and record themselves reading aloud the passages.</p>   
+            <div id="user_select">
+                <button id="student_button" v-on:click.prevent="switchToStudent">STUDENTS</button>
+                <button id="teacher_button" v-on:click.prevent="switchToTeacher">TEACHERS</button>
+            </div>
             <p>The methods used in this application are based on empirical research regarding the importance of teaching suprasegmental features of language as part of pronunciation instruction. More information on the theory behind this application can be found <a href="./about.html">here</a>.</p>
         </div>
     </div>
@@ -48,6 +52,17 @@
     margin: auto;
     padding: 1em;
 }
+#user_select {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+}
  img {
      width: 100%;
  }
@@ -58,5 +73,25 @@
 a { 
     color: #22CC99;
     text-decoration: none;
+}
+
+button {
+    border: .1em solid #22CC99;
+    border-radius: .3em;
+    font-size: inherit;
+    padding: .5em;
+    margin: .5em;
+    outline: none;
+    background-color: #22CC99;
+    cursor: pointer;
+}
+
+button:focus {
+    border: .1em solid lightgrey;
+}
+
+button:hover {
+    background-color: rgb(31, 199, 149);
+    border-color: rgb(31, 199, 149);
 }
 </style>
