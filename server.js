@@ -59,7 +59,7 @@ app.put('/api/passages/:id', (req, res) => {
     passage.display_text = req.body.display_text;
     passage.completed = req.body.completed;
     begin_date: req.body.begin_date;
-    
+
     // handle drag and drop re-ordering
     if (req.body.orderChange) {
         let indexTarget = passagesMap.indexOf(req.body.orderTarget);
@@ -75,6 +75,7 @@ app.post('/api/passages', (req, res) => {
         id: id, 
         dateCreated: Date.now(),
         title: req.body.title, 
+        author: req.body.author, 
         display_text: req.body.display_text, 
         syllables: [],
         completed: req.body.completed 

@@ -27,7 +27,7 @@
               return this.$store.getters.current_user;
          },
          author: function() {
-             return current_user.first_name + " " + current_user.last_name;
+             return this.current_user.first_name + " " + this.current_user.last_name;
          }
      },
      methods: {

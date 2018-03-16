@@ -12,6 +12,7 @@
                 <button class="complete" v-on:click="finishPassage(passage)">I'm Finished Reading</button>
                 <h4>{{passage.title}}</h4>
                 <p>{{passage.display_text}}</p>
+                <p class="attribution">- created by {{passage.author}}</p>
 	        </div>
 
             <h2 class="passage_head">Up-Next Passages</h2>
@@ -21,6 +22,7 @@
                 <button class="begin" v-on:click="startPassage(passage)">Read</button>
                 <h4>{{passage.title}}</h4>
                 <p>{{passage.display_text}}</p>
+                <p class="attribution">- created by {{passage.author}}</p>
 	        </div>            
             
             <h2 class="passage_head">Completed Passages</h2>
@@ -29,6 +31,7 @@
                 <button class="delete" v-on:click="deletePassage(passage)">Delete</button>
                 <h4>{{passage.title}}</h4>
                 <p>{{passage.display_text}}</p>
+                <p class="attribution">- created by {{passage.author}}</p>
 	        </div>        
         </div>
     </div>

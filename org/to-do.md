@@ -5,6 +5,7 @@
 - [] ability to edit passages with edit history
 - [] make user persistent
 - [] make user permissions
+- [] add and convert dates
 - [] Separate about page into "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
 - [] create drop down menu with "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
 - [] Make a grid based layout full of sample passages on the read a passage page
