@@ -19,3 +19,9 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+### Credits
+
+#### Icons
+
+- Delete by Filip Malinowski from the Noun Project - [CC License](https://creativecommons.org/licenses/by/3.0/us/legalcode)

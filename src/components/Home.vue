@@ -17,14 +17,27 @@
 </template>
 
 <script>
- export default {
-     name: 'Home',
-     data () {
-        return {
-            imagePath: '/static/images/reading.jpg'
+    export default {
+        name: 'Home',
+        data () {
+            return {
+                imagePath: '/static/images/reading.jpg'
+            }
+        },
+
+        methods: {
+            switchToStudent: function () {
+                this.$store.dispatch('updateCurUser',{
+                    id: 1,
+                });
+            },
+            switchToTeacher: function () {
+                this.$store.dispatch('updateCurUser',{
+                    id: 0,
+                });
+            },
         }
-     }
- }
+    }
 </script>
 
 <style scoped>

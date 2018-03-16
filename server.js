@@ -8,10 +8,44 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('dist'))
 
 let passages = [];
+let users = [
+    {
+        "id": 0,
+        "date_joined": "Date.now()",
+        "first_name": "Shanti",
+        "last_name": "der Blatter",
+        "user_type": "teacher"
+    },
+    {
+        "id": 1,
+        "date_joined": "Date.now()",
+        "first_name": "Brandon",
+        "last_name": "der Blatter",
+        "user_type": "student"
+    },
+];
 let id = 0;
+
+console.log('hi, I\'m your backend server!');
 
 app.get('/api/passages', (req, res) => {
     res.send(passages);
+});
+
+app.get('/api/users/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    let usersMap = users.map(user => { return user.id; });
+    let index = usersMap.indexOf(id);
+    let user = users[index]
+    res.send(user);
+});
+
+app.get('/api/passages/:id', (req, res) => {
+    let id = parseInt(req.params.id);
+    let passagesMap = passages.map(passage => { return passage.id; });
+    let index = passagesMap.indexOf(id);
+    let passage = passages[index]
+    res.send(passage);
 });
 
 app.put('/api/passages/:id', (req, res) => {
@@ -24,10 +58,8 @@ app.put('/api/passages/:id', (req, res) => {
     passage.title = req.body.title;
     passage.display_text = req.body.display_text;
     passage.completed = req.body.completed;
-
-    if (passage.completed === "true") {
-        passage.date_completed = Date.now();
-    }
+    begin_date: req.body.begin_date;
+    
     // handle drag and drop re-ordering
     if (req.body.orderChange) {
         let indexTarget = passagesMap.indexOf(req.body.orderTarget);

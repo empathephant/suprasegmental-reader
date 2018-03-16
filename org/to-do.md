@@ -1,3 +1,10 @@
+- [x] switchable modes
+- [x] implement store
+- [x] ability to delete passages
+- [] add passage author = current user
+- [] ability to edit passages with edit history
+- [] make user persistent
+- [] make user permissions
 - [] Separate about page into "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
 - [] create drop down menu with "About the Creators" and "About Suprasegmentals" and maybe even "About the Application"
 - [] Make a grid based layout full of sample passages on the read a passage page
@@ -8,8 +15,5 @@
 - [] fix about pics
 - [] make passages use grid layout
 - [] make contact us form work
-- [] ability to delete passages
-- [] ability to edit passages
-- [] switchable modes
-- [] implement store
-- [] add passage author = current user
+- [] add passage viewer
+- [] attribute things properly

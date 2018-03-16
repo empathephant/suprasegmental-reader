@@ -152,6 +152,6 @@
             "connector": "!"
         }
     ],
-    "completed": "partially",
+    "completed": "in_progess",
     "date_completed": "Date.now()"
 }

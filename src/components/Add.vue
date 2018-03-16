@@ -22,15 +22,24 @@
              addedText: '',
          }
      },
+     computed: {
+         current_user: function() {
+              return this.$store.getters.current_user;
+         },
+         author: function() {
+             return current_user.first_name + " " + current_user.last_name;
+         }
+     },
      methods: {
         addPassage: function() {
-            console.log(`New Passage "${this.addedTitle}" added.`)
+            console.log(`New Passage "${this.addedTitle}" added by ${this.current_user.first_name}.`)
             this.$store.dispatch('addPassage',{
                 date_created: Date.now(),
                 title: this.addedTitle,
                 display_text: this.addedText, 
                 syllables: [],
                 completed: "false",
+                author: this.author,
             });
         },
      }
