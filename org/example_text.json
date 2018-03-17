@@ -1,5 +1,5 @@
 {
-    "id": 1,
+    "passage_id": 1,
     "date_created": "Date.now()",
     "title": "A Very Bad Day",
     "display_text": "Have you ever had a bad day? Well, yesterday was the most terrible day ever!",
@@ -153,5 +153,14 @@
         }
     ],
     "completed": "in_progess",
-    "date_completed": "Date.now()"
+    "date_completed": "",
+    "author": {
+        "user_id": 1,
+        "date_joined": "Date.now()",
+        "first_name": "Shanti",
+        "last_name": "der Blatter",
+        "user_type": "teacher",
+        "email": "empathephant@gmail.com",
+        "username": "empathephant"
+    }
 }

@@ -6,33 +6,51 @@
 
         <div id="container">
             <h2 class="passage_head">Current Passages</h2>
-            <div v-for="passage in in_progress_passages">
-                <hr>
-                <button class="delete" v-on:click="deletePassage(passage)">Delete</button>
-                <button class="complete" v-on:click="finishPassage(passage)">I'm Finished Reading</button>
-                <h4>{{passage.title}}</h4>
-                <p>{{passage.display_text}}</p>
-                <p class="attribution">- created by {{passage.author}}</p>
-	        </div>
+            <div v-if="in_progress_passages.length > 0">
+                <div class="passage_card" v-for="passage in in_progress_passages">
+                    <button v-on:click="openPassage" class="accordion">{{passage.title}}</button>
+                    <div class="passage_text">
+                        <p class="attribution">by {{passage.author}}</p>
+                        <p>{{passage.display_text}}</p>
+                        <button v-if="edit_permission" class="delete" v-on:click="deletePassage(passage)">Delete</button>
+                        <button v-else class="complete" v-on:click="finishPassage(passage)">Done</button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <p class="no_passages">No current passages to display.</p>
+            </div>
 
             <h2 class="passage_head">Up-Next Passages</h2>
-            <div v-for="passage in todo_passages">
-                <hr>
-                <button class="delete" v-on:click="deletePassage(passage)">Delete</button>
-                <button class="begin" v-on:click="startPassage(passage)">Read</button>
-                <h4>{{passage.title}}</h4>
-                <p>{{passage.display_text}}</p>
-                <p class="attribution">- created by {{passage.author}}</p>
-	        </div>            
+            <div v-if="todo_passages.length > 0">
+                <div class="passage_card" v-for="passage in todo_passages">
+                    <button v-on:click="openPassage" class="accordion">{{passage.title}}</button>
+                    <div class="passage_text">
+                        <p class="attribution">by {{passage.author}}</p>
+                        <p>{{passage.display_text}}</p>
+                        <button v-if="edit_permission" class="delete" v-on:click="deletePassage(passage)">Delete</button>
+                        <button v-else class="begin" v-on:click="startPassage(passage)">Start Reading</button>
+                    </div>
+                </div>
+            </div>
+            <div v-else>
+                <p class="no_passages">No other passages to display.</p>
+            </div>      
             
             <h2 class="passage_head">Completed Passages</h2>
-            <div v-for="passage in completed_passages">
-                <hr>
-                <button class="delete" v-on:click="deletePassage(passage)">Delete</button>
-                <h4>{{passage.title}}</h4>
-                <p>{{passage.display_text}}</p>
-                <p class="attribution">- created by {{passage.author}}</p>
-	        </div>        
+            <div v-if="completed_passages.length > 0">
+                <div class="passage_card" v-for="passage in completed_passages">
+                    <button v-on:click="openPassage" class="accordion">{{passage.title}}</button>
+                    <div class="passage_text">
+                        <p class="attribution">by {{passage.author}}</p>
+                        <p>{{passage.display_text}}</p>
+                        <button v-if="edit_permission" class="delete" v-on:click="deletePassage(passage)">Delete</button>
+                    </div>
+                </div> 
+            </div>
+            <div v-else>
+                <p class="no_passages">You haven't completed any passages!</p>
+            </div>       
         </div>
     </div>
 </template>
@@ -49,6 +67,12 @@
         this.getPassages();
      },
     computed: {
+        current_user: function() {
+              return this.$store.getters.current_user;
+         },
+         edit_permission: function() {
+             return this.current_user.user_type === "teacher";
+         },
         passages: function() {
             return this.$store.getters.passages;
         },
@@ -110,6 +134,18 @@
             });
             this.getPassages();
         },
+        openPassage: function() {
+            /* Toggle between adding and removing the "active" class, to highlight the button that controls the panel */
+            event.target.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            let passage_text = event.target.nextElementSibling;
+            if (passage_text.style.display === "block") {
+                passage_text.style.display = "none";
+            } else {
+                passage_text.style.display = "block";
+            }
+        },
      },
  }
 </script>
@@ -135,8 +171,45 @@
     margin: auto;
     padding: 1em;
 }
+.complete, .begin {
+    border: .1em solid #22CC99;
+    border-radius: .3em;
+    font-size: .75em;
+    padding: .5em;
+    margin: .5em;
+    outline: none;
+    background-color: #22CC99;
+    cursor: pointer;
+}
+
+.complete:focus, .begin:focus {
+    border: .1em solid lightgrey;
+}
+
+.complete:hover, .begin:hover {
+    background-color: rgb(31, 199, 149);
+    border-color: rgb(31, 199, 149);
+}
 .passage_head {
     text-align: center;
+}
+.delete {
+    color: red;
+    background-color: white;
+    border: .1em solid red;
+    border-radius: .3em;
+    font-size: .75em;
+    padding: .5em;
+    margin: .5em;
+    outline: none;
+    cursor: pointer;
+}
+.delete:hover {
+    color: white;
+    background-color: red;
+}
+.passage_card {
+    /* background-color: rgb(21, 184, 135); */
 }
  a:hover {
     color: rgb(21, 184, 135);
@@ -145,5 +218,43 @@
 a { 
     color: #22CC99;
     text-decoration: none;
+}
+.attribution {
+    font-style: italic;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 15px 20px;
+    width: 100%;
+    font-size: 1em;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    border-radius: 6px;
+    margin-bottom: 6px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, {
+    background-color: #22CC99;
+    font-weight: bold;
+}
+
+.accordion:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.passage_text {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+    padding-bottom: 10px;
 }
 </style>

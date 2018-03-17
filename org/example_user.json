@@ -1,7 +1,9 @@
 {
-    "id": 1,
+    "user_id": 1,
     "date_joined": "Date.now()",
     "first_name": "Shanti",
     "last_name": "der Blatter",
-    "user_type": "teacher"
+    "user_type": "teacher",
+    "email": "empathephant@gmail.com",
+    "username": "empathephant"
 }
