@@ -92,6 +92,7 @@ textarea {
     padding: .5em;
     margin: .5em;
     outline: none;
+    resize: none;
 }
 
 input:focus,

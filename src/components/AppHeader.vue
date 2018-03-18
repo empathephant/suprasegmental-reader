@@ -115,6 +115,7 @@
      text-decoration: none;
      border-bottom: 3px solid #22CC99;
      margin: 0px;
+     color: white;
  }
  .user_info {
      position: absolute;

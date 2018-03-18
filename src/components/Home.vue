@@ -90,13 +90,14 @@ a {
 
 button {
     border: .1em solid #22CC99;
-    border-radius: .3em;
+    /* border-radius: .3em; */
     font-size: inherit;
-    padding: .5em;
+    padding: 1em;
     margin: .5em;
     outline: none;
     background-color: #22CC99;
     cursor: pointer;
+    color: white;
 }
 
 button:focus {
