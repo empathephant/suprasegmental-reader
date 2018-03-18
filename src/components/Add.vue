@@ -41,6 +41,8 @@
                 completed: "false",
                 author: this.author,
             });
+            this.addedTitle = '';
+            this.addedText = '';
         },
      }
  }

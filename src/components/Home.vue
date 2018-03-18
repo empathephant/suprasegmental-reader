@@ -107,4 +107,13 @@ button:hover {
     background-color: rgb(31, 199, 149);
     border-color: rgb(31, 199, 149);
 }
+@media (max-width: 600px) {
+    .hero h1 {
+        font-size: 2.2em;
+        padding-top: 25px;
+    }
+    .hero h2 {
+        font-size: 1.5em;
+    }
+}
 </style>
