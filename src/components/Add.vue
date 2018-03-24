@@ -28,6 +28,12 @@
          },
          author: function() {
              return this.current_user.first_name + " " + this.current_user.last_name;
+         },
+         permissionToAdd: function() {
+             // deep property
+             let permission = (this.current_user.user_type === "teacher");
+             console.log(`permission = ${permission}`);
+             return permission;
          }
      },
      methods: {
