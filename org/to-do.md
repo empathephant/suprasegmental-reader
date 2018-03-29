@@ -3,7 +3,6 @@
 - implement SQL database
 - add API
 
-
 ## Future
 
 - [] Fix about page pics
