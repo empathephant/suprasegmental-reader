@@ -1,3 +1,10 @@
+## For Creative Projects
+
+- implement SQL database
+- add API
+
+## Future
+
 - [] Fix about page pics
 - [] fix teacher covering contact
 - [] [icons](https://www.w3schools.com/icons/default.asp)
@@ -28,15 +35,17 @@
 - [] Chartsjs?
 - [] star rating?
 
+## Complete
+
 - [x] Fix accordions
 - [x] Fix [hamburger](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp)
-- [x] Fix button styling
-- [x] clear the add form
 - [x] switchable modes
 - [x] implement store
 - [x] ability to delete passages
 - [x] add passage author = current user
 - [x] make user permissions 
+- [x] Fix button styling
+- [x] clear the add form
 - [x] Fix login
 - - [x] make it not on top of each other
 - - [x] make it on the far right
