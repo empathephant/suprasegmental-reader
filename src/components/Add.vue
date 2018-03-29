@@ -15,21 +15,29 @@
 
 <script>
  export default {
-     name: 'Add',
-     data () {
-         return {
-             addedTitle: '',
-             addedText: '',
-         }
-     },
-     computed: {
-         current_user: function() {
-              return this.$store.getters.current_user;
-         },
-         author: function() {
-             return this.current_user.first_name + " " + this.current_user.last_name;
-         }
-     },
+    name: 'Add',
+    data () {
+        return {
+            addedTitle: '',
+            addedText: '',
+        }
+    },
+    
+    computed: {
+        current_user: function() {
+            return this.$store.getters.current_user;
+        },
+        author: function() {
+            return this.current_user.first_name + " " + this.current_user.last_name;
+        },
+        permissionToAdd: function() {
+            // deep property
+            let permission = (this.current_user.user_type === "teacher");
+            console.log(`permission = ${permission}`);
+            return permission;
+        },
+    },
+
      methods: {
         addPassage: function() {
             console.log(`New Passage "${this.addedTitle}" added by ${this.current_user.first_name}.`)

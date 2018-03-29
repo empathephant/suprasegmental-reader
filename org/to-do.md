@@ -1,29 +1,18 @@
-## By Creative Project
+## For Creative Projects
 
-- [x] Fix accordions
-- [x] Fix [hamburger](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp)
-- [x] Fix button styling
-- [x] clear the add form
-- [x] Fix login
-- - [x] make it not on top of each other
-- - [x] make it on the far right
-- - [x] make it click and switchable
-- [x] Make nav links responsive and other stuff
-- [] Fix about page pics
-- [x] make title responsive
+- implement SQL database
+- add API
+
 
 ## Future
 
+- [] Fix about page pics
 - [] fix teacher covering contact
 - [] [icons](https://www.w3schools.com/icons/default.asp)
 - [] make responsive navbar like [twitter](https://twitter.com/intcreator)
 - [] create style guide and consistent [colors](https://onextrapixel.com/anatomy-of-colors-in-web-design-pure-as-snow-white/)
+- [] use global styles and css variables
 - [] [sign commits](https://help.github.com/articles/signing-commits-with-gpg/)
-- [x] switchable modes
-- [x] implement store
-- [x] ability to delete passages
-- [x] add passage author = current user
-- [x] make user permissions 
 - [] must have teacher permission to add
 - [] make user persistent
 - [] add and convert dates
@@ -46,3 +35,21 @@
 - [] drag and drop reordering?
 - [] Chartsjs?
 - [] star rating?
+
+## Complete
+
+- [x] Fix accordions
+- [x] Fix [hamburger](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp)
+- [x] switchable modes
+- [x] implement store
+- [x] ability to delete passages
+- [x] add passage author = current user
+- [x] make user permissions 
+- [x] Fix button styling
+- [x] clear the add form
+- [x] Fix login
+- - [x] make it not on top of each other
+- - [x] make it on the far right
+- - [x] make it click and switchable
+- [x] Make nav links responsive and other stuff
+- [x] make title responsive
