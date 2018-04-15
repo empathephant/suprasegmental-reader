@@ -1,10 +1,17 @@
-## For Creative Projects
+## API Creative Projects
 
-- implement SQL database
-- add API
+- [] Add vocabulary list page
+- [] add word list to navbar for students
+- [] add search bar
+- [] display definitions via api
+- [] add persistent words
+- [] make vocab page prettyful
+
+## SQL Creative Project
 
 ## Future
 
+- [] responsive it again
 - [] Fix about page pics
 - [] fix teacher covering contact
 - [] [icons](https://www.w3schools.com/icons/default.asp)

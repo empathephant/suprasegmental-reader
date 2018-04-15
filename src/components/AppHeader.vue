@@ -10,10 +10,14 @@
         </div>
 	    <li id="home"><router-link to="/">Home</router-link></li>
 	    <li v-if="teacher_type" class="nav-item"><router-link to="/add">Add<span class="wrap"> a Passage</span></router-link></li>
+
 	    <li v-if="teacher_type" class="nav-item"><router-link to="/browse">Browse<span class="wrap"> Passages</span></router-link></li>
 	    <li v-else class="nav-item"><router-link to="/browse">Read<span class="wrap"> a Passage</span></router-link></li>
+        <li v-if="!teacher_type" class="nav-item"><router-link to="/vocabulary"><span class="wrap">My </span>Word List</router-link></li>
 	    <li class="nav-item"><router-link to="/about">About</router-link></li>
 	    <li class="nav-item"><router-link to="/contact">Contact</router-link></li>
+
+
         <li class="nav-item user_type user_info" id="login" v-if="current_user.first_name === undefined" v-on:click="switchUser">LOGIN</li>
 	    <div class="user_info" v-else>
 	        <li class="nav-item user_name" v-bind:class="{teacher: teacher_type}" v-on:click="switchUser">{{ current_user.first_name}}<span class="wrap">{{" " + current_user.last_name}}</span></li>

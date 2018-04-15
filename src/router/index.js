@@ -5,6 +5,7 @@ import Add from '@/components/Add'
 import Browse from '@/components/Browse'
 import About from '@/components/About'
 import Contact from '@/components/Contact'
+import Vocab from '@/components/Vocab'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/contact',
       name: 'Contact',
       component: Contact
+    },
+    {
+      path: '/vocabulary',
+      name: 'Vocabulary',
+      component: Vocab
     }
   ]
 })
