@@ -1,16 +1,21 @@
-## API Creative Projects
+## Next Up
 
-- [] Add vocabulary list page
-- [] add word list to navbar for students
-- [] add search bar
-- [] display definitions via api
+### API Creative Project
+
+- [x] Add vocabulary list page
+- [x] add word list to navbar for students
+- [x] add search bar
+- [] display definitions template
+- [] use api to get definition
 - [] add persistent words
 - [] make vocab page prettyful
+- [] hide vocab page for teachers
 
-## SQL Creative Project
+### SQL Creative Project
 
 ## Future
 
+- [] hide sections on browse for teachers
 - [] responsive it again
 - [] Fix about page pics
 - [] fix teacher covering contact

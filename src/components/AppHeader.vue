@@ -13,7 +13,7 @@
 
 	    <li v-if="teacher_type" class="nav-item"><router-link to="/browse">Browse<span class="wrap"> Passages</span></router-link></li>
 	    <li v-else class="nav-item"><router-link to="/browse">Read<span class="wrap"> a Passage</span></router-link></li>
-        <li v-if="!teacher_type" class="nav-item"><router-link to="/vocabulary"><span class="wrap">My </span>Word List</router-link></li>
+        <li v-if="!teacher_type" class="nav-item"><router-link to="/vocabulary"><span class="wrap">My </span>Words</router-link></li>
 	    <li class="nav-item"><router-link to="/about">About</router-link></li>
 	    <li class="nav-item"><router-link to="/contact">Contact</router-link></li>
 
