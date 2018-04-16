@@ -1,7 +1,8 @@
-// Set Up Express
+// Set Up Express and Packages
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const fetch = require('node-fetch');
 
 const app = express();
 app.use(bodyParser.json());
@@ -111,6 +112,12 @@ app.delete('/api/passages/:id', (req, res) => {
 let vocabulary = [];
 let word_id = 0;
 
+// Oxford API Info
+
+let app_id = "1ecba526";
+let app_key = "b799b025f677272024c4a14aa489a3b7";
+let api_base_url = "https://od-api.oxforddictionaries.com/api/v1/entries/en/";
+
 app.get('/api/vocabulary', (req, res) => {
     res.send(vocabulary);
 });
@@ -147,17 +154,45 @@ app.get('/api/vocabulary', (req, res) => {
 
 app.post('/api/vocabulary', (req, res) => {
     word_id = word_id + 1;
-    let word = {
-        word_id: word_id,
-        dateAdded: Date.now(),
-        headword: req.body.headword,
-        definitions: [
-            "the round fruit of a tree of the rose family, which typically has thin red or green skin and crisp flesh. Many varieties have been developed as dessert or cooking fruit or for making cider.",
-            "the tree which bears apples."
-        ]
+
+    let headwordToSearch = req.body.headword;
+    let apiURL = api_base_url + headwordToSearch
+    let oxfordHeaders = {
+        "Accept": "application/json",
+        "app_id": app_id,
+        "app_key": app_key,
     };
-    vocabulary.push(word);
-    res.send(word);
+
+    fetch(apiURL, {headers: oxfordHeaders}).then(function(response) {
+        return response.json();
+    }).then(function(json) {
+        let lexicalEntries = json.results[0].lexicalEntries;
+        let wordDefinitions = [];
+        lexicalEntries.forEach(function(lexicalEntry) {
+            let entries = lexicalEntry.entries;
+            entries.forEach(function(entry) {
+                let senses = entry.senses;
+                senses.forEach(function(sense){
+                    let definitions = sense.definitions;
+                    definitions.forEach(function(definition){
+                        if(definition) {
+                            wordDefinitions.push(definition);
+                        }
+                    });
+                });
+            });
+        });
+
+        let word = {
+            word_id: word_id,
+            dateAdded: Date.now(),
+            headword: headwordToSearch,
+            definitions: wordDefinitions,
+        };
+        console.log(word);
+        vocabulary.push(word);
+        res.send(word);
+    }); 
 });
 
 app.delete('/api/vocabulary/:id', (req, res) => {

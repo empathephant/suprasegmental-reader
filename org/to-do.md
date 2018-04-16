@@ -1,5 +1,22 @@
 ## Next Up
 
+### SQL Creative Project
+
+- [] install knex
+- [] set up MariaDB
+- [] add login gui
+- [] set up store for users
+- [] set up server for users
+- [] design db structure
+- [] set up db for users
+- [] set up db for passages
+- [] set up db for words
+- [] link users to their word lists
+- [] link users to their passage states
+- [] implement authentication
+
+## Future
+
 ### API Creative Project
 
 - [x] Add vocabulary list page
@@ -8,14 +25,18 @@
 - [x] store for words
 - [x] server for words
 - [x] display definitions template
-- [] use api to get definition
-- [] make vocab page prettyful
+- [x] use api to get definition
+- [] make vocab page us drop down cards
 - [] hide vocab page for teachers
+- [] change it to a learner's dictionary
+- [] url encode weird stuff
+- [] make recently searched words appear on top
 
-### SQL Creative Project
+### Other
 
-## Future
-
+- [] use fetch
+- [] hide api key
+- [] put robots.txt in the right spot
 - [] hide sections on browse for teachers
 - [] responsive it again
 - [] Fix about page pics

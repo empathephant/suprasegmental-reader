@@ -119,7 +119,7 @@ export default new Vuex.Store({
         addVocabWord(context, vocabWord) {
             console.log(`addVocabWord action on ${vocabWord.headword}`);
             axios.post("/api/vocabulary", vocabWord).then(response => {
-                context.commit('setVocabWords', response.data);
+                return context.dispatch('getVocabWords');
             }).catch(err => {
             });
         },
