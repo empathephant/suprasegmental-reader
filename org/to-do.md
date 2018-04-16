@@ -34,6 +34,7 @@
 
 ### Other
 
+- [] add 404
 - [] use fetch
 - [] hide api key
 - [] put robots.txt in the right spot
