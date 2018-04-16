@@ -35,6 +35,7 @@
 ### Other
 
 - [] add 404
+- [] develop dashboards
 - [] fix home page about theory link
 - [] use fetch
 - [] let teachers see all the words for their class and how many students added them
