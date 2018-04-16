@@ -24,4 +24,3 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 #### Icons
 
-- Delete by Filip Malinowski from the Noun Project - [CC License](https://creativecommons.org/licenses/by/3.0/us/legalcode)
