@@ -107,3 +107,5 @@ Temporary Items
 # AWS stuff for publishing static files
 .aws-credentials.json
 .awspublish*
+
+ssh.txt

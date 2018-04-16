@@ -1,10 +1,28 @@
-## For Creative Projects
+## Next Up
 
-- implement SQL database
-- add API
+### SQL Creative Project
+
+- [x] install knex
+- [] set up MariaDB
+- [] add login gui
+- [] set up store for users
+- [] set up server for users
+- [] design db structure
+- [] set up db for users
+- [] set up db for passages
+- [] set up db for words
+- [] link users to their word lists
+- [] link users to their passage states
+- [] implement authentication
 
 ## Future
 
+- [] add 404
+- [] use fetch
+- [] hide api key and knexfile ????
+- [] put robots.txt in the right spot
+- [] hide sections on browse for teachers
+- [] responsive it again
 - [] Fix about page pics
 - [] fix teacher covering contact
 - [] [icons](https://www.w3schools.com/icons/default.asp)
@@ -36,6 +54,8 @@
 - [] star rating?
 
 ## Complete
+
+### Creative Project 1, 3, 4
 
 - [x] Fix accordions
 - [x] Fix [hamburger](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp)
