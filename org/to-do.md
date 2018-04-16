@@ -35,7 +35,9 @@
 ### Other
 
 - [] add 404
+- [] fix home page about theory link
 - [] use fetch
+- [] let teachers see all the words for their class and how many students added them
 - [] hide api key and knexfile ????
 - [] put robots.txt in the right spot
 - [] hide sections on browse for teachers

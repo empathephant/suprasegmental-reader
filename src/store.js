@@ -10,6 +10,10 @@ export default new Vuex.Store({
     state: {
         users: [],
         current_user: {},
+        loggedIn: false,
+        loginError: '',
+        registerError: '',
+        // feed: [],
 
         passages: [],
 
@@ -17,6 +21,10 @@ export default new Vuex.Store({
     },
     getters: {
         current_user: state => state.current_user,
+        loggedIn: state => state.loggedIn,
+        loginError: state => state.loginError,
+        registerError: state => state.registerError,
+        // feed: state => state.feed,
 
         passages: state => state.passages,
 
@@ -30,6 +38,18 @@ export default new Vuex.Store({
             console.log(`set current user mutation on ${current_user.first_name}`);
             state.current_user = current_user;
         },
+        setLogin(state, status) {
+            state.loggedIn = status;
+        },
+        setLoginError(state, message) {
+            state.loginError = message;
+        },
+        setRegisterError(state, message) {
+            state.registerError = message;
+        },
+        // setFeed(state, feed) {
+        //     state.feed = feed;
+        // },
 
         // Mutations for Passages
         
@@ -75,6 +95,50 @@ export default new Vuex.Store({
             });
         },
 
+        // Registration, Login //
+        register(context, user) {
+            axios.post("/api/users", user).then(response => {
+                context.commit('setCurUser', response.data.user);
+                context.commit('setLogin', true);
+                context.commit('setRegisterError', "");
+                context.commit('setLoginError', "");
+            }).catch(error => {
+                context.commit('setLoginError', "");
+                context.commit('setLogin', false);
+                if (error.response) {
+                    if (error.response.status === 403)
+                        context.commit('setRegisterError', "That email address already has an account.");
+                    else if (error.response.status === 409)
+                        context.commit('setRegisterError', "That user name is already taken.");
+                    return;
+                }
+                context.commit('setRegisterError', "Sorry, your request failed. We will look into it.");
+            });
+        },
+
+        login(context, user) {
+            axios.post("/api/login", user).then(response => {
+                context.commit('setCurUser', response.data.user);
+                context.commit('setLogin', true);
+                context.commit('setRegisterError', "");
+                context.commit('setLoginError', "");
+            }).catch(error => {
+                context.commit('setRegisterError', "");
+                if (error.response) {
+                    if (error.response.status === 403 || error.response.status === 400)
+                        context.commit('setLoginError', "Invalid login.");
+                    context.commit('setRegisterError', "");
+                    return;
+                }
+                context.commit('setLoginError', "Sorry, your request failed. We will look into it.");
+            });
+        },
+
+        logout(context, user) {
+            context.commit('setCurUser', {});
+            context.commit('setLogin', false);
+        },
+
         // Actions for Passages
 
         getPassages(context) {
@@ -116,11 +180,30 @@ export default new Vuex.Store({
             }).catch(err => {
             });
         },
+        // User Words //
+        getUserVocab(context) {
+            axios.get("/api/users/" + context.state.curUser.user_id + "/vocabulary").then(response => {
+                context.commit('setVocabWords', response.data.vocabulary);
+            }).catch(err => {
+                console.log("getUserVocab failed:", err);
+            });
+        },
+
         addVocabWord(context, vocabWord) {
             console.log(`addVocabWord action on ${vocabWord.headword}`);
             axios.post("/api/vocabulary", vocabWord).then(response => {
                 return context.dispatch('getVocabWords');
             }).catch(err => {
+                console.log("addVocabWord failed:", err);
+            });
+        },
+
+        addUserVocabWord(context, vocabWord) {
+            console.log(`addUserVocabWord action on ${vocabWord.headword}`);
+            axios.post("/api/users/" + context.state.curUser.user_id + "/vocabulary", vocabWord).then(response => {
+                return context.dispatch('getVocabWords');
+            }).catch(err => {
+                console.log("addUserVocabWord failed:", err);
             });
         },
         // updateVocabWord(context, vocabWord) {

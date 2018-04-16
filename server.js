@@ -10,8 +10,41 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('dist'))
 
+// Knex Setup
+const env = process.env.NODE_ENV || 'development';
+const config = require('./knexfile')[env];
+const knex = require('knex')(config);
+
+// bcrypt setup
+let bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 console.log('hi, I\'m your backend server!');
+
+// Handle Login
+
+app.post('/api/login', (req, res) => {
+    if (!req.body.email || !req.body.password)
+        return res.status(400).send();
+    knex('users').where('email', req.body.email).first().then(user => {
+        if (user === undefined) {
+            res.status(403).send("Invalid credentials");
+            throw new Error('abort');
+        }
+        return [bcrypt.compare(req.body.password, user.hash), user];
+    }).spread((result, user) => {
+        if (result)
+            res.status(200).json({ user: { username: user.username, name: user.name, id: user.id } });
+        else
+            res.status(403).send("Invalid credentials");
+        return;
+    }).catch(error => {
+        if (error.message !== 'abort') {
+            console.log(error);
+            res.status(500).json({ error });
+        }
+    });
+});
 
 // Handle Users
 
@@ -31,6 +64,39 @@ let users = [
         "user_type": "student"
     },
 ];
+
+app.post('/api/users', (req, res) => {
+    if (!req.body.email || !req.body.password || !req.body.username || !req.body.first_name || !req.body.last_name || !req.body.user_type)
+        return res.status(400).send();
+    knex('users').where('email', req.body.email).first().then(user => {
+        if (user !== undefined) {
+            res.status(403).send("Email address already exists");
+            throw new Error('abort');
+        }
+        return knex('users').where('username', req.body.username).first();
+    }).then(user => {
+        if (user !== undefined) {
+            res.status(409).send("Username already exists");
+            throw new Error('abort');
+        }
+        return bcrypt.hash(req.body.password, saltRounds);
+    }).then(hash => {
+        return knex('users').insert({
+            email: req.body.email, hash: hash, username: req.body.username,
+            first_name: req.body.first_name, last_name: req.body.last_name, user_type: req.body.user_type, date_joined: Date.now(),
+        });
+    }).then(ids => {
+        return knex('users').where('user_id', ids[0]).first().select('username', 'name', 'id');
+    }).then(user => {
+        res.status(200).json({ user: user });
+        return;
+    }).catch(error => {
+        if (error.message !== 'abort') {
+            console.log(error);
+            res.status(500).json({ error });
+        }
+    });
+});
 
 app.get('/api/users/:id', (req, res) => {
     let id = parseInt(req.params.id);
@@ -130,6 +196,18 @@ app.get('/api/vocabulary', (req, res) => {
 //     res.send(passage);
 // });
 
+app.get('/api/users/:id/vocabulary', (req, res) => {
+    let id = parseInt(req.params.id);
+    knex('users').join('tweets', 'users.user_id', 'tweets.user_id')
+        .where('users.user_id', id)
+        .orderBy('date_added', 'desc')
+        .select('headword', 'definitions', 'username', 'name', 'date_added').then(tweets => {
+            res.status(200).json({ vocabulary: vocabulary });
+        }).catch(error => {
+            res.status(500).json({ error });
+        });
+});
+
 // app.put('/api/vocabulary/:id', (req, res) => {
 //     let id = parseInt(req.params.id);
 //     let vocabularyMap = vocabulary.map(passage => { return passage.id; });
@@ -194,6 +272,61 @@ app.post('/api/vocabulary', (req, res) => {
         res.send(word);
     }); 
 });
+
+app.post('/api/users/:id/vocabulary', (req, res) => {
+
+    let headwordToSearch = req.body.headword;
+    let apiURL = api_base_url + headwordToSearch
+    let oxfordHeaders = {
+        "Accept": "application/json",
+        "app_id": app_id,
+        "app_key": app_key,
+    };
+
+    fetch(apiURL, { headers: oxfordHeaders }).then(function (response) {
+        return response.json();
+    }).then(function (json) {
+        let lexicalEntries = json.results[0].lexicalEntries;
+        let wordDefinitions = [];
+        lexicalEntries.forEach(function (lexicalEntry) {
+            let entries = lexicalEntry.entries;
+            entries.forEach(function (entry) {
+                let senses = entry.senses;
+                senses.forEach(function (sense) {
+                    let definitions = sense.definitions;
+                    definitions.forEach(function (definition) {
+                        if (definition) {
+                            wordDefinitions.push(definition);
+                        }
+                    });
+                });
+            });
+        });
+
+        let my_user_id = parseInt(req.params.id);
+
+        let my_word = {
+            user_id: my_user_id,
+            dateAdded: Date.now(),
+            headword: headwordToSearch,
+            definitions: wordDefinitions,
+        };
+
+        knex('users').where('user_id', my_user_id).first().then(user => {
+            return knex('vocabulary').insert(my_word);
+        }).then(ids => {
+            return knex('vocabulary').where('word_id', ids[0]).first();
+        }).then(tweet => {
+            res.status(200).json({ vocab_word: vocab_word });
+            return;
+        }).catch(error => {
+            console.log(error);
+            res.status(500).json({ error });
+        });
+    });
+});
+
+//TODO: We could do some additional error checking here, and return a 404 error if the user does not exist. Right now that will return a 500 error.
 
 app.delete('/api/vocabulary/:id', (req, res) => {
     let id = parseInt(req.params.id);
