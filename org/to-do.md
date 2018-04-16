@@ -17,6 +17,23 @@
 
 ## Future
 
+### API Creative Project
+
+- [x] Add vocabulary list page
+- [x] add word list to navbar for students
+- [x] add search bar
+- [x] store for words
+- [x] server for words
+- [x] display definitions template
+- [x] use api to get definition
+- [] make vocab page us drop down cards
+- [] hide vocab page for teachers
+- [] change it to a learner's dictionary
+- [] url encode weird stuff
+- [] make recently searched words appear on top
+
+### Other
+
 - [] add 404
 - [] use fetch
 - [] hide api key and knexfile ????
