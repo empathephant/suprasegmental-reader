@@ -2,7 +2,7 @@
 
 ### SQL Creative Project
 
-- [] install knex
+- [x] install knex
 - [] set up MariaDB
 - [] add login gui
 - [] set up store for users
@@ -36,7 +36,7 @@
 
 - [] add 404
 - [] use fetch
-- [] hide api key
+- [] hide api key and knexfile ????
 - [] put robots.txt in the right spot
 - [] hide sections on browse for teachers
 - [] responsive it again
@@ -71,6 +71,8 @@
 - [] star rating?
 
 ## Complete
+
+### Creative Project 1, 3, 4
 
 - [x] Fix accordions
 - [x] Fix [hamburger](https://www.w3schools.com/howto/howto_js_topnav_responsive.asp)
