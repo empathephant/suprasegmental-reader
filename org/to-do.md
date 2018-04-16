@@ -5,9 +5,10 @@
 - [x] Add vocabulary list page
 - [x] add word list to navbar for students
 - [x] add search bar
-- [] display definitions template
+- [x] store for words
+- [x] server for words
+- [x] display definitions template
 - [] use api to get definition
-- [] add persistent words
 - [] make vocab page prettyful
 - [] hide vocab page for teachers
 

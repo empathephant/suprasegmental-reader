@@ -8,6 +8,15 @@
                 <input v-model="headwordToSearch" type="text" name="headword" placeholder="Word">
                 <button type="submit">Search<span class="wrap"> Dictionary</span></button>
             </form>
+            <hr>
+            <div v-for="word in vocab_words">
+                <h2 class="headword">{{word.headword}}</h2>
+                <ol class="definitions">
+                    <div v-for="definition in word.definitions">
+                        <li>{{definition}}</li>
+                    </div>
+                </ol>
+            </div>
         </div>
     </div>
 </template>
@@ -20,10 +29,18 @@
             headwordToSearch: '',
         }
     },
+
+    created: function() {
+        this.getWords();
+    },
     
     computed: {
         current_user: function() {
                 return this.$store.getters.current_user;
+        },
+        vocab_words: function() {
+            console.log("computing vocab_words")
+            return this.$store.getters.vocab_words;
         },
     },
 
@@ -34,6 +51,10 @@
                 headword: this.headwordToSearch,
             });
             this.headwordToSearch = '';
+        },
+        getWords: function() {
+            console.log(`get words method`)
+            this.$store.dispatch('getVocabWords');
         },
     }
  }
@@ -65,7 +86,7 @@
     #dictSearch {
         display: flex;
         justify-content: center;
-        padding: 36px;
+        padding: 40px;
     }
 
     a:hover {
@@ -97,20 +118,29 @@
         padding: .5em;
         margin: .5em;
         outline: none;
+        background-color: #22CC99;
+        color: white;
+        cursor: pointer;
     }
 
     button:focus {
         border: .1em solid lightgrey;
     }
 
-    button {
-        background-color: #22CC99;
-        cursor: pointer;
-    }
-
     button:hover {
         background-color: rgb(31, 199, 149);
         border-color: rgb(31, 199, 149);
+    }
+
+    hr {
+        display: block;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #ccc;
+        margin: 1em 0;
+        padding: 0; 
+        color: rgb(204, 204, 204);
+        background-color: rgb(204, 204, 204);
     }
 
     @media (max-width: 930px) {

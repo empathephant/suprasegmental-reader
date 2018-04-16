@@ -48,9 +48,10 @@ export default new Vuex.Store({
 
         // Mutations for Words
 
-        setVocabWords(state, words) {
+        setVocabWords(state, vocab_words) {
             console.log(`set words mutation`);
             state.vocab_words = vocab_words;
+            console.log(state);
         },
         // setVocabWord(state, passage) {
         //     console.log(`set passage mutation on ${passage.title}`);
@@ -95,7 +96,6 @@ export default new Vuex.Store({
             console.log(`update passage action on ${passage.title}`);
             axios.put("/api/passages/" + passage.id, passage).then(response => {
                 context.commit('setPassage', response.data);
-                return true;
             }).catch(err => {
             });
         },
@@ -113,14 +113,13 @@ export default new Vuex.Store({
             console.log(`getVocabWords action`);
             axios.get("/api/vocabulary").then(response => {
                 context.commit('setVocabWords', response.data);
-                return true;
             }).catch(err => {
             });
         },
         addVocabWord(context, vocabWord) {
-            console.log(`addVocabWord action on ${vocabWord.title}`);
+            console.log(`addVocabWord action on ${vocabWord.headword}`);
             axios.post("/api/vocabulary", vocabWord).then(response => {
-                return context.dispatch('getVocabWords');
+                context.commit('setVocabWords', response.data);
             }).catch(err => {
             });
         },
@@ -128,12 +127,11 @@ export default new Vuex.Store({
         //     console.log(`update VocabWord action on ${VocabWord.title}`);
         //     axios.put("/api/vocabulary/" + vocabWord.word_id, vocabWord).then(response => {
         //         context.commit('setVocabWord', response.data);
-        //         return true;
         //     }).catch(err => {
         //     });
         // },
         deleteVocabWord(context, vocabWord) {
-            console.log(`delete VocabWord action on ${vocabWord.title}`);
+            console.log(`delete VocabWord action on ${vocabWord.headword}`);
             axios.delete("/api/vocabulary/" + vocabWord.word_id).then(response => {
                 return context.dispatch('getVocabWords');
             }).catch(err => {
