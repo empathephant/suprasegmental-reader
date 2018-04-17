@@ -66,6 +66,7 @@ let users = [
 ];
 
 app.post('/api/users', (req, res) => {
+    console.log(`posting ${req.body.username}`)
     if (!req.body.email || !req.body.password || !req.body.username || !req.body.first_name || !req.body.last_name || !req.body.user_type)
         return res.status(400).send();
     knex('users').where('email', req.body.email).first().then(user => {
@@ -82,11 +83,16 @@ app.post('/api/users', (req, res) => {
         return bcrypt.hash(req.body.password, saltRounds);
     }).then(hash => {
         return knex('users').insert({
-            email: req.body.email, hash: hash, username: req.body.username,
-            first_name: req.body.first_name, last_name: req.body.last_name, user_type: req.body.user_type, date_joined: Date.now(),
+            email: req.body.email, 
+            hash: hash, 
+            username: req.body.username,
+            first_name: req.body.first_name, 
+            last_name: req.body.last_name, 
+            user_type: req.body.user_type, 
+            // date_joined: Date.now(),
         });
     }).then(ids => {
-        return knex('users').where('user_id', ids[0]).first().select('username', 'name', 'id');
+        return knex('users').where('user_id', ids[0]).first().select('username', 'first_name', 'last_name', 'user_id');
     }).then(user => {
         res.status(200).json({ user: user });
         return;

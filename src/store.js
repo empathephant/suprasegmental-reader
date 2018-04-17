@@ -97,6 +97,7 @@ export default new Vuex.Store({
 
         // Registration, Login //
         register(context, user) {
+            console.log("action register");
             axios.post("/api/users", user).then(response => {
                 context.commit('setCurUser', response.data.user);
                 context.commit('setLogin', true);

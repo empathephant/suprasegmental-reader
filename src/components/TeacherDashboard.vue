@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>Student dashboard</p>
+    <p>Teacher dashboard</p>
   </div>
 </template>
 
 <script>
  export default {
-   name: 'StudentDashboard',
+   name: 'TeacherDashboard',
    components: {},
    computed: {
    },

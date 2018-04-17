@@ -3,17 +3,19 @@
 ### SQL Creative Project
 
 - [x] install knex
-- [] set up MariaDB
+- [x] set up MariaDB
 - [] add login gui
 - [] set up store for users
 - [] set up server for users
 - [] design db structure
-- [] set up db for users
+- [x] set up db for users
 - [] set up db for passages
-- [] set up db for words
+- [x] set up db for words
 - [] link users to their word lists
 - [] link users to their passage states
 - [] implement authentication
+- [] make the registration page not horrid
+- [] fix sql dates
 
 ## Future
 
@@ -38,6 +40,7 @@
 - [] develop dashboards
 - [] fix home page about theory link
 - [] use fetch
+- [] global styles????
 - [] let teachers see all the words for their class and how many students added them
 - [] hide api key and knexfile ????
 - [] put robots.txt in the right spot
@@ -45,6 +48,8 @@
 - [] responsive it again
 - [] Fix about page pics
 - [] fix teacher covering contact
+- [] logo, tagline, marketing stuff
+- [] change permissions for being logged out
 - [] [icons](https://www.w3schools.com/icons/default.asp)
 - [] make responsive navbar like [twitter](https://twitter.com/intcreator)
 - [] create style guide and consistent [colors](https://onextrapixel.com/anatomy-of-colors-in-web-design-pure-as-snow-white/)
