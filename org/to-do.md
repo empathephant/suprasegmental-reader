@@ -16,6 +16,7 @@
 - [] implement authentication
 - [] make the registration page not horrid
 - [] fix sql dates
+- [] make login and logout go to home pages
 
 ## Future
 
@@ -36,7 +37,9 @@
 
 ### Other
 
+- [] clean up unused code
 - [] add 404
+- [] landing page buttons check the appropriate radio button
 - [] develop dashboards
 - [] fix home page about theory link
 - [] use fetch

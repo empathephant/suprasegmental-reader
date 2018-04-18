@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <app-header></app-header>
-    <router-view/>
+    <div id="content">
+      <router-view/>
+    </div>
     <app-footer></app-footer>
   </div>
 </template>
@@ -24,5 +26,8 @@ export default {
   margin-top: 60px;
   padding: 0;
   font-size: 1.2em;
+}
+#content {
+  margin-top: 60px;
 }
 </style>

@@ -108,4 +108,6 @@ Temporary Items
 .aws-credentials.json
 .awspublish*
 
+# Secret stuff
 ssh.txt
+.env

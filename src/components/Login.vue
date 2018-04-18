@@ -4,66 +4,52 @@
         <!-- TODO: Add logo   -->
         <h1>suprasegmental reader</h1>
         <h2>improve your pausing, intonation, and stress</h2>
-        <div id="createAccount">
-            <h3 id="hero">Create an Account</h3>
-            <form id="registration" v-on:submit.prevent="register">
-                <div class="doubleWide">
-                    <input class="narrow" v-model="first_name" placeholder="First Name"><br/>
-                    <input class="narrow" v-model="last_name" placeholder="Last Name"><br/>
-                </div>
-                <div class="doubleWide">
-                    <input type="radio" v-model="user_type" value="student" checked>
-                    <p class="radio"> Student</p>
-                    <input type="radio" v-model="user_type" value="teacher">
-                    <p class="radio"> Teacher</p>
-                </div>
-                <input class="wide" v-model="email" placeholder="Email Address">
-                <input class="wide" v-model="username" placeholder="Username">
+        <div v-if="loggedIn">
+            <p id="switch" v-on:click="logout">Sign in to a different account</p>
+        </div>
+        <div v-else id="login">
+            <h3 id="hero">Login</h3>
+            <form id="userInfo" v-on:submit.prevent="login">
+                <input class="wide" v-model="email" placeholder="Email">
                 <input class="wide" type="password" v-model="password" placeholder="Password">
-                <button class="alternate" type="submit">REGISTER</button>
+                <button class="alternate" type="submit" href="#">LOGIN</button>
             </form>
-            <p id="alternate"><router-link to="/login">I already have an account</router-link></p>
-            <p class="error">{{registerError}}</p>
+            <p id="alternate"><router-link to="/register">or, create an account</router-link></p>
+            <p class="error">{{loginError}}</p>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'Register',
+        name: 'Login',
         data () {
             return {
-            username: '',
-            email: '',
-            password: '',
-            first_name: '',
-            last_name: '',
-            user_type: 'student',
+                email: '',
+                password: '',
             }
         },
         computed: {
-            registerError: function() {
-            return this.$store.getters.registerError;
+            loggedIn: function() {
+       return this.$store.getters.loggedIn;
+     },
+            loginError: function() {
+            return this.$store.getters.loginError;
             },
         },
         methods: {
-            register: function() {
-                console.log("method register");
-                this.$store.dispatch('register',{
-                    username: this.username,
+            login: function() {
+                console.log("method login");
+                this.$store.dispatch('login',{
                     email: this.email,
                     password: this.password,
-                    first_name: this.first_name,
-                    last_name: this.last_name,
-                    user_type: this.user_type,
                 });
-                this.username = '';
                 this.email = '';
                 this.password = '';
-                this.first_name = '';
-                this.last_name = '';
-                this.user_type = 'student';
             },
+            logout: function() {
+       this.$store.dispatch('logout');
+     },
         },
     }
 </script>
@@ -121,18 +107,21 @@ a {
     text-decoration: none;
 }
 
+.error {
+    /* color: red; */
+}
 
-
-#registration {
+#userInfo {
     margin: auto;
     width: 70%;
 }
 
-#createAccount {
+#login {
     background-color: #22CC99;
     padding: 15px;
     border-radius: 15px;
 }
+
 
 input,
 textarea {
@@ -183,7 +172,7 @@ button:hover {
     display: flex;
     justify-content: space-around;
 }
-#alternate a {
+#alternate a, #switch {
     color: rgb(75, 7, 135);
     text-decoration: underline;
 }

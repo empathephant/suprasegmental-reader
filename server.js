@@ -1,3 +1,5 @@
+console.log('hi, I\'m your backend server!');
+
 // Set Up Express and Packages
 
 const express = require('express');
@@ -19,24 +21,71 @@ const knex = require('knex')(config);
 let bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-console.log('hi, I\'m your backend server!');
+// jwt setup
+const jwt = require('jsonwebtoken');
+let jwtSecret = process.env.jwtSecret;
+if (jwtSecret === undefined) {
+    console.log("You need to define a jwtSecret environment variable to continue.");
+    knex.destroy();
+    process.exit();
+}
 
 // Handle Login
 
+const verifyToken = (req, res, next) => {
+    console.log('verifyToken')
+    const token = req.headers['authorization'];
+    if (!token)
+        return res.status(403).send({ error: 'No token provided.' });
+    jwt.verify(token, jwtSecret, function (err, decoded) {
+        if (err)
+            return res.status(500).send({ error: 'Failed to authenticate token.' });
+        // if everything good, save to request for use in other routes
+        req.user_id = decoded.id;
+        next();
+    });
+}
+
 app.post('/api/login', (req, res) => {
-    if (!req.body.email || !req.body.password)
+    console.log(`post login on ${req.body.email}`);
+    console.log(req.body);
+    if (!req.body.email || !req.body.password) {
         return res.status(400).send();
+        console.log("not enough info");
+    }
     knex('users').where('email', req.body.email).first().then(user => {
         if (user === undefined) {
+            console.log("no email in system");
             res.status(403).send("Invalid credentials");
             throw new Error('abort');
         }
+        console.log("email in system");
         return [bcrypt.compare(req.body.password, user.hash), user];
     }).spread((result, user) => {
-        if (result)
-            res.status(200).json({ user: { username: user.username, name: user.name, id: user.id } });
-        else
+        if (result) {
+            console.log("correct hash");
+            let token = jwt.sign({ id: user.user_id }, jwtSecret, {
+                expiresIn: 86400 // expires in 24 hours
+            });
+            let packet = {
+                user: { 
+                    username: user.username, 
+                    first_name: user.first_name, 
+                    last_name: user.last_name, 
+                    user_type: user.user_type, 
+                    user_id: user.user_id, 
+                    email: user.email, 
+                    date_joined: user.date_joined 
+                }, 
+                token: token 
+            };
+            console.log("responding with ");
+            console.log(packet);
+            res.status(200).json(packet);
+        } else {
+            console.log("bad pw");
             res.status(403).send("Invalid credentials");
+        }
         return;
     }).catch(error => {
         if (error.message !== 'abort') {
@@ -46,23 +95,32 @@ app.post('/api/login', (req, res) => {
     });
 });
 
+// Get my account
+app.get('/api/me', verifyToken, (req, res) => {
+    knex('users').where('user_id', req.user_id).first().select('username', 'first_name', 'last_name', 'id').then(user => {
+        res.status(200).json({ user: user });
+    }).catch(error => {
+        res.status(500).json({ error });
+    });
+});
+
 // Handle Users
 
 let users = [
-    {
-        "id": 0,
-        "date_joined": "Date.now()",
-        "first_name": "Shanti",
-        "last_name": "der Blatter",
-        "user_type": "teacher"
-    },
-    {
-        "id": 1,
-        "date_joined": "Date.now()",
-        "first_name": "Brandon",
-        "last_name": "der Blatter",
-        "user_type": "student"
-    },
+    // {
+    //     "id": 0,
+    //     "date_joined": "Date.now()",
+    //     "first_name": "Shanti",
+    //     "last_name": "der Blatter",
+    //     "user_type": "teacher"
+    // },
+    // {
+    //     "id": 1,
+    //     "date_joined": "Date.now()",
+    //     "first_name": "Brandon",
+    //     "last_name": "der Blatter",
+    //     "user_type": "student"
+    // },
 ];
 
 app.post('/api/users', (req, res) => {
@@ -94,7 +152,10 @@ app.post('/api/users', (req, res) => {
     }).then(ids => {
         return knex('users').where('user_id', ids[0]).first().select('username', 'first_name', 'last_name', 'user_id');
     }).then(user => {
-        res.status(200).json({ user: user });
+        let token = jwt.sign({ id: user.id }, jwtSecret, {
+            expiresIn: 86400 // expires in 24 hours
+        });
+        res.status(200).json({ user: user, token: token });
         return;
     }).catch(error => {
         if (error.message !== 'abort') {
@@ -204,12 +265,19 @@ app.get('/api/vocabulary', (req, res) => {
 
 app.get('/api/users/:id/vocabulary', (req, res) => {
     let id = parseInt(req.params.id);
-    knex('users').join('tweets', 'users.user_id', 'tweets.user_id')
+    knex('users').join('vocabulary', 'users.user_id', 'vocabulary.user_id')
         .where('users.user_id', id)
         .orderBy('date_added', 'desc')
-        .select('headword', 'definitions', 'username', 'name', 'date_added').then(tweets => {
-            res.status(200).json({ vocabulary: vocabulary });
+        .select('headword', 'definitions', 'username', 'first_name', 'last_name', 'date_added').then(vocabulary => {
+            let parsedVocabulary = vocabulary.map(function(word) {
+                let newDefinitions = JSON.parse(word.definitions);
+                console.log(newDefinitions);
+                word.definitions = newDefinitions;
+                return word;
+            });
+            res.status(200).json({ vocabulary: parsedVocabulary });
         }).catch(error => {
+            console.log(error);
             res.status(500).json({ error });
         });
 });
@@ -269,7 +337,7 @@ app.post('/api/vocabulary', (req, res) => {
 
         let word = {
             word_id: word_id,
-            dateAdded: Date.now(),
+            date_added: Date.now(),
             headword: headwordToSearch,
             definitions: wordDefinitions,
         };
@@ -279,7 +347,9 @@ app.post('/api/vocabulary', (req, res) => {
     }); 
 });
 
-app.post('/api/users/:id/vocabulary', (req, res) => {
+app.post('/api/users/:id/vocabulary', verifyToken, (req, res) => {
+    console.log('post /api/users/:id/vocabulary and this keyboard sucks');
+    
 
     let headwordToSearch = req.body.headword;
     let apiURL = api_base_url + headwordToSearch
@@ -310,19 +380,24 @@ app.post('/api/users/:id/vocabulary', (req, res) => {
         });
 
         let my_user_id = parseInt(req.params.id);
+        console.log(`my_user_id = ${my_user_id} and req.user_id = ${req.user_id}`)
+        if (my_user_id !== req.user_id) {
+            res.status(403).send();
+            return;
+        }
 
         let my_word = {
             user_id: my_user_id,
-            dateAdded: Date.now(),
+            // date_added: Date.now(),
             headword: headwordToSearch,
-            definitions: wordDefinitions,
+            definitions: JSON.stringify(wordDefinitions),
         };
 
         knex('users').where('user_id', my_user_id).first().then(user => {
             return knex('vocabulary').insert(my_word);
         }).then(ids => {
             return knex('vocabulary').where('word_id', ids[0]).first();
-        }).then(tweet => {
+        }).then(vocab_word => {
             res.status(200).json({ vocab_word: vocab_word });
             return;
         }).catch(error => {

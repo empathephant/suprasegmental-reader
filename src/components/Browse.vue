@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="loggedIn">
         <div id="hero">
             <h1>Browse Passages</h1>
         </div>
@@ -53,6 +53,9 @@
             </div>       
         </div>
     </div>
+    <div v-else>
+            <p>Sorry, you must be logged in to view this content.</p>
+    </div>
 </template>
 
 <script>
@@ -70,6 +73,9 @@
         current_user: function() {
               return this.$store.getters.current_user;
          },
+         loggedIn: function() {
+       return this.$store.getters.loggedIn;
+     },
          edit_permission: function() {
              return this.current_user.user_type === "teacher";
          },

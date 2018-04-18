@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div id="hero">
+        <div v-if="loggedIn && user_type === 'student'" id="hero">
             <h1>My Vocabulary List</h1>
         </div>
-        <div id="container">
+        <div v-if="loggedIn && user_type === 'student'" id="container">
             <form id="dictSearch" v-on:submit.prevent="dictSearch">
                 <input v-model="headwordToSearch" type="text" name="headword" placeholder="Word">
                 <button type="submit">Search<span class="wrap"> Dictionary</span></button>
@@ -18,10 +18,14 @@
                 </ol>
             </div>
         </div>
+        <div v-else>
+            <p>Sorry, you must be logged in as a student to view this content.</p>
+        </div>
     </div>
 </template>
 
 <script>
+import moment from 'moment';
  export default {
     name: 'Vocab',
     data () {
@@ -35,26 +39,38 @@
     },
     
     computed: {
-        current_user: function() {
-                return this.$store.getters.current_user;
-        },
         vocab_words: function() {
             console.log("computing vocab_words")
             return this.$store.getters.vocab_words;
+        },
+        loggedIn: function() {
+       return this.$store.getters.loggedIn;
+     },
+        current_user: function() {
+            let userNow = this.$store.getters.current_user
+            console.log(`computing current user ${userNow.first_name}`)
+            return userNow;
+        },
+        user_type: function() {
+            let user_type = this.current_user.user_type
+            console.log(`current user ${this.current_user.first_name} is a ${user_type}`)
+            return user_type;
         },
     },
 
     methods: {
         dictSearch: function() {
             console.log(`${this.current_user.first_name} is searching dictionary for "${this.headwordToSearch}".`)
-            this.$store.dispatch('addVocabWord',{
+            this.$store.dispatch('addUserVocabWord',{
                 headword: this.headwordToSearch,
             });
             this.headwordToSearch = '';
         },
         getWords: function() {
-            console.log(`get words method`)
-            this.$store.dispatch('getVocabWords');
+            if (this.loggedIn) {
+                console.log(`get words method`)
+                this.$store.dispatch('getUserVocab');
+            }
         },
     }
  }

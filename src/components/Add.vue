@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="loggedIn && user_type === 'teacher'">
         <div id="hero">
             <h1>Add a Passage</h1>
         </div>
@@ -10,6 +10,9 @@
                 <button type="submit">Add Passage</button>
             </form>
         </div>
+    </div>
+    <div v-else>
+            <p>Sorry, you must be logged in as a teacher to view this content.</p>
     </div>
 </template>
 
@@ -24,9 +27,6 @@
     },
     
     computed: {
-        current_user: function() {
-            return this.$store.getters.current_user;
-        },
         author: function() {
             return this.current_user.first_name + " " + this.current_user.last_name;
         },
@@ -35,6 +35,19 @@
             let permission = (this.current_user.user_type === "teacher");
             console.log(`permission = ${permission}`);
             return permission;
+        },
+        loggedIn: function() {
+       return this.$store.getters.loggedIn;
+     },
+        current_user: function() {
+            let userNow = this.$store.getters.current_user
+            console.log(`computing current user ${userNow.first_name}`)
+            return userNow;
+        },
+        user_type: function() {
+            let user_type = this.current_user.user_type
+            console.log(`current user ${this.current_user.first_name} is a ${user_type}`)
+            return user_type;
         },
     },
 

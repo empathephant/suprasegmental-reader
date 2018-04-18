@@ -8,8 +8,8 @@
         <div id="container">
             <p>This application allows TESOL (Teaching English to Speakers of Other Languages) teachers to upload reading passages and allows students to view, listen to, mark-up, and record themselves reading aloud the passages.</p>   
             <div id="user_select">
-                <button id="student_button" v-on:click.prevent="switchToStudent">STUDENTS</button>
-                <button id="teacher_button" v-on:click.prevent="switchToTeacher">TEACHERS</button>
+                <router-link to="/register"><button id="student_button">STUDENTS</button></router-link>
+                <router-link to="/register"><button id="teacher_button">TEACHERS</button></router-link>
             </div>
             <p>The methods used in this application are based on empirical research regarding the importance of teaching suprasegmental features of language as part of pronunciation instruction. More information on the theory behind this application can be found <a href="./about.html">here</a>.</p>
         </div>

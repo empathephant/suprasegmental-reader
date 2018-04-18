@@ -1,27 +1,47 @@
 <template>
     <nav>
-	<!-- <label for="show-menu" class="show-menu">Show Menu</label> -->
-	<!-- <input type="checkbox" id="show-menu" role="button"> -->
+    <!-- Draw hamburger to hide and display menu on small screens -->
     <ul v-bind:class="{show_menu: menuVisible}" id="menu">
         <div v-bind:class="{hamburger_x: menuVisible}" id="hamburger" v-on:click="showMenu">
             <div class="hamburger_stripe" id="hamburger_top"></div>
             <div class="hamburger_stripe" id="hamburger_mid"></div>
             <div class="hamburger_stripe" id="hamburger_bottom"></div>
         </div>
-	    <li id="home"><router-link to="/">Home</router-link></li>
-	    <li v-if="teacher_type" class="nav-item"><router-link to="/add">Add<span class="wrap"> a Passage</span></router-link></li>
-
-	    <li v-if="teacher_type" class="nav-item"><router-link to="/browse">Browse<span class="wrap"> Passages</span></router-link></li>
-	    <li v-else class="nav-item"><router-link to="/browse">Read<span class="wrap"> a Passage</span></router-link></li>
-        <li v-if="!teacher_type" class="nav-item"><router-link to="/vocabulary"><span class="wrap">My </span>Words</router-link></li>
-	    <li class="nav-item"><router-link to="/about">About</router-link></li>
-	    <li class="nav-item"><router-link to="/contact">Contact</router-link></li>
-
-
-        <li class="nav-item user_type user_info" id="login" v-if="current_user.first_name === undefined" v-on:click="switchUser">LOGIN</li>
-	    <div class="user_info" v-else>
-	        <li class="nav-item user_name" v-bind:class="{teacher: teacher_type}" v-on:click="switchUser">{{ current_user.first_name}}<span class="wrap">{{" " + current_user.last_name}}</span></li>
-            <li class="nav-item user_type" v-bind:class="{teacher: teacher_type}" v-on:click="switchUser">{{ teacher_type ? "TEACHER" : "STUDENT" }}</li>
+        <div v-if="loggedIn">
+            <!-- Case 1: User is a teacher -->
+            <div v-if="user_type === 'teacher'" class="nav">
+                <div id="home"><router-link to="/">Home</router-link></div>
+                <div class="nav-item"><router-link to="/add">Add<span class="wrap"> a Passage</span></router-link></div>
+                <div class="nav-item"><router-link to="/browse">Browse<span class="wrap"> Passages</span></router-link></div>
+                <div class="user_info">
+                    <div class="nav-item user_name teacher">{{ current_user.first_name}}<span class="wrap">{{" " + current_user.last_name}}</span></div>
+                    <div class="nav-item user_type teacher">TEACHER</div>
+                </div>
+                <div class="nav-item user_type" id="logout" v-on:click="logout" href="#">LOGOUT</div>
+            </div>
+            <!-- Case 2: User is a student -->
+            <div v-else-if="user_type === 'student'" class="nav">
+                <div id="home"><router-link to="/">Home</router-link></div>
+                <div class="nav-item"><router-link to="/browse">Read<span class="wrap"> a Passage</span></router-link></div>
+                <div class="nav-item"><router-link to="/vocabulary"><span class="wrap">My </span>Words</router-link></div>
+                <div class="user_info">
+                    <div class="nav-item user_name student">{{ current_user.first_name}}<span class="wrap">{{" " + current_user.last_name}}</span></div>
+                    <div class="nav-item user_type student">STUDENT</div>
+                </div>
+                <div class="nav-item user_type " id="logout" v-on:click="logout" href="#">LOGOUT</div>
+            </div>
+            <!-- Case 3: User is undefined -->
+            <div v-else class="nav">
+                <p class="error">Something went wrong.</p>
+                <div class="nav-item user_type" id="logout" v-on:click="logout" href="#">LOGOUT</div>
+            </div>
+        </div>
+        <!-- Case 4: No user is logged in -->
+        <div v-else class="nav">
+            <div id="home"><router-link to="/">Home</router-link></div>
+            <div class="nav-item"><router-link to="/about">About</router-link></div>
+	        <div class="nav-item"><router-link to="/contact">Contact</router-link></div>   
+            <div class="nav-item user_type" id="login"><router-link to="/login">LOGIN</router-link></div>
         </div>
     </ul>	
     </nav>
@@ -39,11 +59,18 @@
 
     // },
     computed: {
+        loggedIn: function() {
+       return this.$store.getters.loggedIn;
+     },
         current_user: function() {
-            return this.$store.getters.current_user;
+            let userNow = this.$store.getters.current_user
+            console.log(`computing current user ${userNow.first_name}`)
+            return userNow;
         },
-        teacher_type: function() {
-            return this.current_user.user_type === "teacher";
+        user_type: function() {
+            let user_type = this.current_user.user_type
+            console.log(`current user ${this.current_user.first_name} is a ${user_type}`)
+            return user_type;
         },
     },
     methods: {
@@ -61,15 +88,22 @@
                 });
             }   
         },
+        logout: function() {
+       this.$store.dispatch('logout');
+     },
+
     }
  }
 </script>
 
 <style scoped>
  /*Strip the ul of padding and list styling*/
- nav {
-     display: grid;
+ .nav {
+     display: flex;
      height: 30px;
+ }
+ .error {
+     color: red;
  }
  #menu {
     background-color: lightgrey;
@@ -79,7 +113,6 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /* overflow: hidden; */
     position: fixed;
     top: 0;
     width: 100%;
@@ -124,6 +157,7 @@
  .user_info {
      position: absolute;
      right: 0px;
+     display: felex;
  }
 .user_name {
      font-weight: bold;
@@ -139,11 +173,7 @@
      border-bottom: 3px solid rgb(75, 7, 135);
      background-color: rgb(75, 7, 135);
  }
- #login {
-     height: 50px;
-     line-height: 50px;
-     padding: 13.5px 16px;
- }
+ 
  /*Active color*/
  .nav-item a.active, #home a.active {
  }
@@ -152,15 +182,13 @@
      border-bottom: 2px solid #22CC99;
      color: black;
  }
- /* Style 'show menu' label button and hide it by default
- .show-menu {
-     text-decoration: none;
-     color: #fff;
-     background: #FF5035;
-     text-align: center;
-     padding: 10px 0;
-     display: none;
- } */
+
+ #login, #logout {
+     height: 50px;
+     line-height: 50px;
+     padding: 13.5px 16px;
+     color: white;
+ }
 
  /* Create animated hamburger */
 
@@ -193,15 +221,7 @@
 .hamburger_x #hamburger_bottom {
     transform: rotate(45deg) translate(-9px, -7px) ;
 }
-/* 
- Hide checkbox
- input[type=checkbox]{
-     display: none;
- }
- Show menu when invisible checkbox is checked
- input[type=checkbox]:checked ~ #menu{
-     display: block;
- } */
+
  /* When the screen is less than 930 pixels wide*/
 @media (max-width: 930px) {
     #user_type {
@@ -216,9 +236,6 @@
     .nav-item {
         display: none;
     }
-    /* #user_name {
-        display: none;
-    } */
     #hamburger {
         position: fixed;
         right: 5px;
