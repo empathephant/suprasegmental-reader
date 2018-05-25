@@ -37,8 +37,10 @@
 
 ### Other
 
+- [] USE KNEX DANG IT
 - [] clean up unused code
-- [] add 404
+- [x] add 404
+- [] design 404
 - [] landing page buttons check the appropriate radio button
 - [] develop dashboards
 - [] fix home page about theory link
