@@ -17,6 +17,9 @@
                     <input type="radio" v-model="user_type" value="teacher">
                     <p class="radio"> Teacher</p>
                 </div>
+                <div v-if="isStudent">
+                    <input class="narrow" v-model="class_id" placeholder="Classroom ID Number">
+                </div>
                 <input class="wide" v-model="email" placeholder="Email Address">
                 <input class="wide" v-model="username" placeholder="Username">
                 <input class="wide" type="password" v-model="password" placeholder="Password">
@@ -39,12 +42,16 @@
             first_name: '',
             last_name: '',
             user_type: 'student',
+            class_id: '',
             }
         },
         computed: {
             registerError: function() {
             return this.$store.getters.registerError;
             },
+            isStudent: function () {
+                return this.user_type === 'student';
+            }
         },
         methods: {
             register: function() {
@@ -56,6 +63,7 @@
                     first_name: this.first_name,
                     last_name: this.last_name,
                     user_type: this.user_type,
+                    class_id: this.class_id,
                 });
                 this.username = '';
                 this.email = '';
@@ -63,6 +71,7 @@
                 this.first_name = '';
                 this.last_name = '';
                 this.user_type = 'student';
+                this.class_id = '';
             },
         },
     }

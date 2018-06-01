@@ -106,23 +106,6 @@ app.get('/api/me', verifyToken, (req, res) => {
 
 // Handle Users
 
-let users = [
-    // {
-    //     "id": 0,
-    //     "date_joined": "Date.now()",
-    //     "first_name": "Shanti",
-    //     "last_name": "der Blatter",
-    //     "user_type": "teacher"
-    // },
-    // {
-    //     "id": 1,
-    //     "date_joined": "Date.now()",
-    //     "first_name": "Brandon",
-    //     "last_name": "der Blatter",
-    //     "user_type": "student"
-    // },
-];
-
 app.post('/api/users', (req, res) => {
     console.log(`posting ${req.body.username}`)
     if (!req.body.email || !req.body.password || !req.body.username || !req.body.first_name || !req.body.last_name || !req.body.user_type)
@@ -148,9 +131,10 @@ app.post('/api/users', (req, res) => {
             last_name: req.body.last_name, 
             user_type: req.body.user_type, 
             // date_joined: Date.now(),
+            class_id: req.body.class_id,
         });
     }).then(ids => {
-        return knex('users').where('user_id', ids[0]).first().select('username', 'first_name', 'last_name', 'user_id');
+        return knex('users').where('user_id', ids[0]).first().select('username', 'first_name', 'last_name', 'user_id', 'user_type', 'class_id');
     }).then(user => {
         let token = jwt.sign({ id: user.id }, jwtSecret, {
             expiresIn: 86400 // expires in 24 hours

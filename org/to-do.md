@@ -5,9 +5,9 @@
 - [x] install knex
 - [x] set up MariaDB
 - [] add login gui
-- [] set up store for users
-- [] set up server for users
-- [] design db structure
+- [x] set up store for users
+- [x] set up server for users
+- [x] design db structure
 - [x] set up db for users
 - [] set up db for passages
 - [x] set up db for words
@@ -37,7 +37,9 @@
 
 ### Other
 
-- [] USE KNEX DANG IT
+- [x] add classroom ids
+- [] teacher > class > student > words , passages > syllabless
+- [x] USE KNEX DANG IT
 - [] clean up unused code
 - [x] add 404
 - [] design 404
